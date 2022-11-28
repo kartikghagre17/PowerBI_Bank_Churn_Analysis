@@ -1,0 +1,32 @@
+
+
+
+DateMaster = CALENDAR(FIRSTDATE(Bank_churn[Bank DOJ]), LASTDATE(Bank_churn[Bank DOJ]))
+Year = Year(DateMaster[Date])
+
+Month = MONTH(DateMaster[Date])
+Month Name = FORMAT(DateMaster[Date],"MMMM")
+
+Active customers = CALCULATE(count(Bank_churn[CustomerId]), ActiveCustomer[ActiveCategory]="Active Member")
+
+Total Customers = COUNT(Bank_churn[CustomerId])
+
+Inactive Customer = CALCULATE(COUNT(Bank_churn[CustomerId]), ActiveCustomer[ActiveCategory]="Inactive Member")
+
+Credit Card holders = CALCULATE(COUNT(Bank_churn[IsActiveMember]), CreditCard[Category]="credit card holder")
+
+Non credit card holders = [Total Customers]-[Credit Card holders]
+Exit Customers = CALCULATE(count(Bank_churn[CustomerId]), ExitCustomers[ExitCategory]="Exit")
+Retain Customers = [Total Customers]-[Exit Customers]
+
+credit Range = SWITCH(TRUE(),Bank_churn[CreditScore]>=800 && Bank_churn[CreditScore]<= 850, "Excellent",
+Bank_churn[CreditScore]>=740 && Bank_churn[CreditScore]<= 799, "very good",
+Bank_churn[CreditScore]>=670 && Bank_churn[CreditScore]<= 739, "good",
+Bank_churn[CreditScore]>=580 && Bank_churn[CreditScore]<= 669, "Fair",
+Bank_churn[CreditScore]>=300 && Bank_churn[CreditScore]<= 579, "poor")
+
+Age Bin = SWITCH(TRUE(),Bank_churn[Age]>= 18 && Bank_churn[Age]<30, "18-29",
+Bank_churn[Age]>= 30 && Bank_churn[Age]<40,"30-39",
+Bank_churn[Age]>= 40 && Bank_churn[Age]<50, "40-49",
+Bank_churn[Age]>= 50 && Bank_churn[Age]<62,"50-61",
+Bank_churn[Age]>= 62 && Bank_churn[Age]<=92,"62-92")

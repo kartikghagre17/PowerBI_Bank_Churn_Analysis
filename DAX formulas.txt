@@ -30,3 +30,9 @@ Bank_churn[Age]>= 30 && Bank_churn[Age]<40,"30-39",
 Bank_churn[Age]>= 40 && Bank_churn[Age]<50, "40-49",
 Bank_churn[Age]>= 50 && Bank_churn[Age]<62,"50-61",
 Bank_churn[Age]>= 62 && Bank_churn[Age]<=92,"62-92")
+
+Churn % = 
+var exit = [Exit Customers]
+var total = [Total Customers]
+var ChurnPercentage = DIVIDE(exit,total)
+return ChurnPercentage
